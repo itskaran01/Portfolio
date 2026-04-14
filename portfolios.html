@@ -1,0 +1,828 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your Name — Video Editor Portfolio</title>
+  <meta name="description" content="Professional video editor portfolio: showreel, services, work, testimonials, and contact." />
+
+  <style>
+    :root{
+      --bg:#070914;
+      --panel:#0f1330;
+      --panel2:#0b0f27;
+      --text:#f2f4ff;
+      --muted:#b3b9d6;
+
+      --brand:#6ee7ff;
+      --brand2:#a78bfa;
+
+      --ring: rgba(110,231,255,.25);
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --radius: 18px;
+      --max: 1120px;
+
+      --border: rgba(255,255,255,.10);
+      --glass: rgba(255,255,255,.05);
+    }
+
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans";
+      color:var(--text);
+      background:
+        radial-gradient(1200px 700px at 15% -10%, rgba(110,231,255,.20), transparent 58%),
+        radial-gradient(1000px 700px at 85% 10%, rgba(167,139,250,.18), transparent 60%),
+        radial-gradient(900px 600px at 50% 120%, rgba(52,211,153,.10), transparent 65%),
+        var(--bg);
+      line-height:1.55;
+      overflow-x:hidden;
+    }
+
+    /* Animated subtle film grain */
+    .grain{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.10;
+      mix-blend-mode: overlay;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+      animation: grainMove 8s steps(10) infinite;
+    }
+    @keyframes grainMove{
+      0%{ transform: translate3d(0,0,0); }
+      100%{ transform: translate3d(-30px, 20px, 0); }
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    .wrap{ width:min(var(--max), 92vw); margin:0 auto; }
+
+    /* Nav */
+    .nav{
+      position:sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter: blur(12px);
+      background: rgba(7,9,20,.60);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .nav-inner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:12px 0;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:900;
+      letter-spacing:.2px;
+      min-width:max-content;
+    }
+    .logo{
+      width:34px; height:34px;
+      border-radius:12px;
+      background:
+        radial-gradient(circle at 30% 20%, var(--brand), transparent 55%),
+        radial-gradient(circle at 70% 70%, var(--brand2), transparent 55%),
+        rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    .nav-links{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .links{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .links a{
+      color:var(--muted);
+      font-weight:800;
+      font-size:14px;
+      padding:10px 10px;
+      border-radius:12px;
+      transition:.2s ease;
+    }
+    .links a:hover{
+      color:var(--text);
+      background: rgba(255,255,255,.06);
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:10px 14px;
+      border-radius:14px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      font-weight:900;
+      font-size:14px;
+      transition:.2s ease;
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+      cursor:pointer;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(110,231,255,.35);
+      box-shadow: 0 18px 40px rgba(0,0,0,.32);
+    }
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(110,231,255,.22), rgba(167,139,250,.18));
+      border-color: rgba(110,231,255,.35);
+    }
+
+    /* Hamburger */
+    .hamburger{ display:none; padding:10px 12px; }
+    .hamburger svg{ width:18px; height:18px; }
+
+    /* Mobile dropdown */
+    .mobile-menu{ display:none; padding: 0 0 12px; }
+    .mobile-menu .panelish{
+      border:1px solid rgba(255,255,255,.10);
+      border-radius: 16px;
+      background: rgba(255,255,255,.04);
+      padding: 10px;
+    }
+    .mobile-menu a{
+      display:block;
+      padding: 12px 12px;
+      border-radius: 12px;
+      color: var(--muted);
+      font-weight: 900;
+    }
+    .mobile-menu a:hover{ background: rgba(255,255,255,.06); color: var(--text); }
+    .mobile-cta{ display:flex; gap:10px; padding-top:10px; flex-wrap:wrap; }
+
+    /* Hero */
+    header{ padding: 42px 0 20px; }
+    .hero{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 18px;
+      align-items:stretch;
+    }
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.10);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-left{
+      padding: 22px;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero-left:before{
+      content:"";
+      position:absolute; inset:-40%;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(110,231,255,.24), transparent 60%),
+        radial-gradient(circle at 70% 60%, rgba(167,139,250,.20), transparent 60%);
+      filter: blur(30px);
+      opacity:.95;
+      pointer-events:none;
+    }
+    .hero-left > *{ position:relative; }
+
+    .kicker{
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      font-weight:950;
+      color: var(--brand);
+      font-size:12px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      background: rgba(110,231,255,.10);
+      border: 1px solid rgba(110,231,255,.22);
+      padding: 8px 12px;
+      border-radius: 999px;
+    }
+
+    h1{
+      margin: 14px 0 10px;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height:1.1;
+      letter-spacing:-.02em;
+    }
+    .grad{
+      background: linear-gradient(90deg, var(--brand), var(--brand2));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+
+    .sub{
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 62ch;
+    }
+    .cta{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin: 16px 0 6px;
+    }
+
+    .meta{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 8px 12px;
+      border-radius:999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+    }
+
+    /* Reel / Video card */
+    .reel{
+      padding:16px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .reel-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(0,0,0,.25);
+      border: 1px solid rgba(255,255,255,.08);
+    }
+    .reel-title{ color: var(--muted); font-size:13px; font-weight:950; }
+    .video-wrap{
+      position:relative;
+      border-radius: 14px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.35);
+      aspect-ratio: 16 / 9;
+    }
+    .video-wrap iframe,
+    .video-wrap video{
+      width:100%;
+      height:100%;
+      display:block;
+      border:0;
+    }
+    .play-overlay{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      pointer-events:none;
+      opacity:0;
+      transition: .25s ease;
+      background: radial-gradient(circle at center, rgba(110,231,255,.16), transparent 60%);
+    }
+    .video-wrap:hover .play-overlay{ opacity:1; }
+
+    /* Sections */
+    section{ padding: 14px 0; }
+    .section-title{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:14px;
+      margin: 22px 0 12px;
+      flex-wrap:wrap;
+    }
+    .section-title h2{ margin:0; font-size: 22px; letter-spacing:-.01em; }
+    .section-title p{ margin:0; color: var(--muted); font-size: 14px; }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+    .col-6{ grid-column: span 6; }
+    .col-4{ grid-column: span 4; }
+    .col-8{ grid-column: span 8; }
+    .col-12{ grid-column: span 12; }
+
+    .panel{
+      padding: 16px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.10);
+      position:relative;
+      overflow:hidden;
+    }
+    .panel h3{ margin:0 0 8px; font-size: 16px; }
+    .panel p{ margin:0; color: var(--muted); font-size: 14px; }
+
+    .tags{ display:flex; flex-wrap:wrap; gap:8px; margin-top: 12px; }
+    .tag{
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 950;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+    }
+
+    .project{
+      transition: .25s ease;
+    }
+    .project:before{
+      content:"";
+      position:absolute; inset:-60%;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(110,231,255,.14), transparent 65%),
+        radial-gradient(circle at 70% 60%, rgba(167,139,250,.12), transparent 65%);
+      filter: blur(25px);
+      opacity:.85;
+      pointer-events:none;
+    }
+    .project > *{ position:relative; }
+    .project:hover{
+      transform: translateY(-4px);
+      border-color: rgba(110,231,255,.35);
+      box-shadow: 0 18px 45px rgba(0,0,0,.35);
+    }
+    .project-top{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      margin-bottom: 10px;
+    }
+    .badge{
+      font-size: 12px;
+      font-weight: 950;
+      letter-spacing:.04em;
+      text-transform: uppercase;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.20);
+      color: var(--muted);
+      white-space:nowrap;
+    }
+
+    .list{ margin: 10px 0 0; padding-left: 18px; color: var(--muted); font-size: 14px; }
+    .list li{ margin: 6px 0; }
+
+    footer{
+      padding: 32px 0 46px;
+      color: var(--muted);
+      text-align:center;
+      font-size: 14px;
+    }
+    .tiny{ font-size: 12px; opacity:.9; }
+
+    /* Scroll reveal animation */
+    .reveal{
+      opacity:0;
+      transform: translateY(16px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.show{
+      opacity:1;
+      transform:none;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px){
+      .hero{ grid-template-columns:1fr; }
+      .col-6,.col-4,.col-8{ grid-column: span 12; }
+    }
+    @media (max-width: 720px){
+      .links{ display:none; }
+      .hamburger{ display:inline-flex; }
+      header{ padding: 28px 0 14px; }
+      .hero-left{ padding: 18px; }
+    }
+    @media (max-width: 420px){
+      .wrap{ width: 94vw; }
+      .cta .btn{ flex: 1 1 auto; }
+    }
+
+    :focus-visible{ outline: 3px solid var(--ring); outline-offset: 3px; border-radius: 12px; }
+  </style>
+</head>
+
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <nav class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#top" aria-label="Go to top">
+        <span class="logo" aria-hidden="true"></span>
+        <span>Your Name<span style="color:var(--muted); font-weight:850;">.edit</span></span>
+      </a>
+
+      <div class="nav-links">
+        <div class="links" aria-label="Primary">
+          <a href="#about">About</a>
+          <a href="#services">Services</a>
+          <a href="#work">Work</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#contact">Contact</a>
+        </div>
+
+        <button class="btn hamburger" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu" title="Open menu">
+          <span style="font-weight:950;">Menu</span>
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+
+        <a class="btn primary" href="#contact">Book a Call</a>
+      </div>
+    </div>
+
+    <div class="wrap mobile-menu" id="mobileMenu">
+      <div class="panelish">
+        <a href="#about" class="m-link">About</a>
+        <a href="#services" class="m-link">Services</a>
+        <a href="#work" class="m-link">Work</a>
+        <a href="#pricing" class="m-link">Pricing</a>
+        <a href="#contact" class="m-link">Contact</a>
+
+        <div class="mobile-cta">
+          <a class="btn" href="#" target="_blank" rel="noreferrer">Instagram</a>
+          <a class="btn" href="#" target="_blank" rel="noreferrer">YouTube</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="top" class="wrap">
+    <header class="reveal">
+      <div class="hero">
+        <div class="card hero-left">
+          <div class="kicker">Professional Video Editor • Motion • Color</div>
+
+          <h1>
+            I’m <span class="grad">Your Name</span> —<br/>
+            I craft clean edits that keep viewers watching.
+          </h1>
+
+          <p class="sub">
+            I edit short-form and long-form content for creators and brands: fast pacing, strong storytelling,
+            clean sound, crisp captions, and a consistent visual style.
+          </p>
+
+          <div class="cta">
+            <a class="btn primary" href="#work">Watch Showreel</a>
+            <a class="btn" href="#services">Services</a>
+            <a class="btn" href="#contact">Contact</a>
+          </div>
+
+          <div class="meta">
+            <span class="pill">⚡ 24–48h turnaround (shorts)</span>
+            <span class="pill">🎬 Premiere Pro • After Effects</span>
+            <span class="pill">🎧 Audio + captions included</span>
+          </div>
+        </div>
+
+        <aside class="card reel" aria-label="Showreel">
+          <div class="reel-top">
+            <div class="reel-title">Showreel — replace with your YouTube/Vimeo embed</div>
+            <span class="badge">2026</span>
+          </div>
+
+          <!-- OPTION A: YouTube Embed (recommended) -->
+          <div class="video-wrap">
+            <!-- Replace VIDEO_ID with your YouTube video id -->
+            <iframe
+              src="https://www.youtube.com/embed/VIDEO_ID?rel=0&modestbranding=1"
+              title="Showreel"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            ></iframe>
+            <div class="play-overlay" aria-hidden="true"></div>
+          </div>
+
+          <div class="tags">
+            <span class="tag">Shorts</span>
+            <span class="tag">YouTube</span>
+            <span class="tag">Ads</span>
+            <span class="tag">Reels</span>
+          </div>
+        </aside>
+      </div>
+    </header>
+
+    <section id="about" class="reveal">
+      <div class="section-title">
+        <h2>About</h2>
+        <p>Style, workflow, and what clients get</p>
+      </div>
+
+      <div class="grid">
+        <div class="panel col-8">
+          <h3>Editing that feels effortless</h3>
+          <p>
+            I help creators and brands turn raw footage into content that performs: strong hooks, clean pacing,
+            consistent color, and audio that feels polished. My goal is simple — make your videos look premium and
+            keep audiences engaged.
+          </p>
+          <ul class="list">
+            <li><strong>Story first:</strong> structure, pacing, and retention</li>
+            <li><strong>Polish:</strong> color correction, audio cleanup, subtitles</li>
+            <li><strong>Fast delivery:</strong> clear communication + revisions</li>
+          </ul>
+        </div>
+
+        <div class="panel col-4">
+          <h3>Tools</h3>
+          <ul class="list">
+            <li>Adobe Premiere Pro</li>
+            <li>After Effects (motion)</li>
+            <li>DaVinci Resolve (color)</li>
+            <li>Audition (audio)</li>
+          </ul>
+          <div class="tags">
+            <span class="tag">Captions</span>
+            <span class="tag">Sound design</span>
+            <span class="tag">Motion</span>
+            <span class="tag">Color</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="services" class="reveal">
+      <div class="section-title">
+        <h2>Services</h2>
+        <p>Pick what you need — I handle the rest</p>
+      </div>
+
+      <div class="grid">
+        <div class="panel col-4">
+          <h3>Short-form (Reels/TikTok/Shorts)</h3>
+          <p>High-retention edits with captions, punchy cuts, and clean sound.</p>
+          <div class="tags">
+            <span class="tag">Hook + pacing</span><span class="tag">Captions</span><span class="tag">SFX</span>
+          </div>
+        </div>
+
+        <div class="panel col-4">
+          <h3>YouTube Long-form</h3>
+          <p>Story-driven edits, b-roll, music, audio cleanup, and consistency.</p>
+          <div class="tags">
+            <span class="tag">Chapters</span><span class="tag">Audio</span><span class="tag">B-roll</span>
+          </div>
+        </div>
+
+        <div class="panel col-4">
+          <h3>Ads & Brand Content</h3>
+          <p>Clean cuts, modern motion graphics, and clear messaging for conversion.</p>
+          <div class="tags">
+            <span class="tag">Motion</span><span class="tag">Brand style</span><span class="tag">CTA</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="work" class="reveal">
+      <div class="section-title">
+        <h2>Work</h2>
+        <p>Add your best 4–6 projects (links or embeds)</p>
+      </div>
+
+      <div class="grid">
+        <article class="panel project col-6">
+          <div class="project-top">
+            <h3>Short-form Reel — Fitness Creator</h3>
+            <span class="badge">Reels</span>
+          </div>
+          <p>Fast pacing, captions, and sound design optimized for retention.</p>
+          <ul class="list">
+            <li>Hook in first 1–2 seconds</li>
+            <li>Bold captions + clean audio</li>
+          </ul>
+          <div class="cta" style="margin-top:12px;">
+            <a class="btn primary" href="#" target="_blank" rel="noreferrer">Watch</a>
+            <a class="btn" href="#" target="_blank" rel="noreferrer">Before/After</a>
+          </div>
+        </article>
+
+        <article class="panel project col-6">
+          <div class="project-top">
+            <h3>YouTube — Podcast Highlights</h3>
+            <span class="badge">Long-form</span>
+          </div>
+          <p>Story edits, b-roll, music, and pacing to keep viewers engaged.</p>
+          <ul class="list">
+            <li>Jump cuts + smart zooms</li>
+            <li>Chapters + consistent look</li>
+          </ul>
+          <div class="cta" style="margin-top:12px;">
+            <a class="btn primary" href="#" target="_blank" rel="noreferrer">Watch</a>
+            <a class="btn" href="#" target="_blank" rel="noreferrer">Project Notes</a>
+          </div>
+        </article>
+
+        <article class="panel project col-6">
+          <div class="project-top">
+            <h3>Product Ad — Minimal Motion</h3>
+            <span class="badge">Ads</span>
+          </div>
+          <p>Clean motion graphics, product callouts, and strong CTA.</p>
+          <ul class="list">
+            <li>Brand-safe color + typography</li>
+            <li>Exported for multiple platforms</li>
+          </ul>
+          <div class="cta" style="margin-top:12px;">
+            <a class="btn primary" href="#" target="_blank" rel="noreferrer">Watch</a>
+            <a class="btn" href="#" target="_blank" rel="noreferrer">Deliverables</a>
+          </div>
+        </article>
+
+        <article class="panel project col-6">
+          <div class="project-top">
+            <h3>Wedding Highlight — Cinematic</h3>
+            <span class="badge">Cinematic</span>
+          </div>
+          <p>Music-driven storytelling, color grading, and smooth transitions.</p>
+          <ul class="list">
+            <li>Emotional beats + pacing</li>
+            <li>Clean color + skin tones</li>
+          </ul>
+          <div class="cta" style="margin-top:12px;">
+            <a class="btn primary" href="#" target="_blank" rel="noreferrer">Watch</a>
+            <a class="btn" href="#" target="_blank" rel="noreferrer">Full Film</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="pricing" class="reveal">
+      <div class="section-title">
+        <h2>Pricing</h2>
+        <p>Simple packages (you can change the numbers)</p>
+      </div>
+
+      <div class="grid">
+        <div class="panel col-4">
+          <h3>Starter</h3>
+          <p>Short-form editing for creators starting out.</p>
+          <div class="tags">
+            <span class="tag">3 shorts/week</span>
+            <span class="tag">Captions</span>
+            <span class="tag">1 revision</span>
+          </div>
+          <ul class="list">
+            <li>Clean cuts + pacing</li>
+            <li>Basic sound design</li>
+            <li>Export for TikTok/IG/YT</li>
+          </ul>
+          <div class="cta" style="margin-top:12px;">
+            <a class="btn primary" href="#contact">Get Quote</a>
+          </div>
+        </div>
+
+        <div class="panel col-4">
+          <h3>Growth</h3>
+          <p>For consistent posting and higher production value.</p>
+          <div class="tags">
+            <span class="tag">5 shorts/week</span>
+            <span class="tag">Motion</span>
+            <span class="tag">2 revisions</span>
+          </div>
+          <ul class="list">
+            <li>Captions + SFX</li>
+            <li>Brand style presets</li>
+            <li>Faster turnaround</li>
+          </ul>
+          <div class="cta" style="margin-top:12px;">
+            <a class="btn primary" href="#contact">Get Quote</a>
+          </div>
+        </div>
+
+        <div class="panel col-4">
+          <h3>Pro</h3>
+          <p>Long-form YouTube or ads with strong polish.</p>
+          <div class="tags">
+            <span class="tag">Long-form</span>
+            <span class="tag">Color</span>
+            <span class="tag">3 revisions</span>
+          </div>
+          <ul class="list">
+            <li>Audio cleanup</li>
+            <li>Color correction/grade</li>
+            <li>Motion graphics</li>
+          </ul>
+          <div class="cta" style="margin-top:12px;">
+            <a class="btn primary" href="#contact">Get Quote</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="reveal">
+      <div class="section-title">
+        <h2>Contact</h2>
+        <p>Fast response + clear workflow</p>
+      </div>
+
+      <div class="grid">
+        <div class="panel col-6">
+          <h3>Let’s work</h3>
+          <p style="margin-bottom:12px;">Replace the email and social links with yours.</p>
+
+          <div class="cta">
+            <a class="btn primary" id="emailBtn" href="mailto:youremail@example.com?subject=Video%20Editing%20Project&body=Hi%20Your%20Name%2C%0A%0A">Email Me</a>
+            <button class="btn" id="copyEmailBtn" type="button">Copy Email</button>
+            <a class="btn" href="#" target="_blank" rel="noreferrer">Instagram</a>
+            <a class="btn" href="#" target="_blank" rel="noreferrer">YouTube</a>
+          </div>
+
+          <p class="tiny" style="margin-top:12px;">Email: <span id="emailText">youremail@example.com</span></p>
+        </div>
+
+        <div class="panel col-6">
+          <h3>Workflow</h3>
+          <ul class="list" style="margin-top:0;">
+            <li><strong>1) Brief:</strong> goals, references, style</li>
+            <li><strong>2) First cut:</strong> I deliver a draft fast</li>
+            <li><strong>3) Revisions:</strong> quick feedback loop</li>
+            <li><strong>4) Final:</strong> exports for all platforms</li>
+          </ul>
+          <div class="tags">
+            <span class="tag">Fast turnaround</span>
+            <span class="tag">Clean captions</span>
+            <span class="tag">Brand consistency</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="reveal">
+      <div>© <span id="year"></span> Your Name — Video Editor Portfolio</div>
+      <div class="tiny">One-file • Responsive • Animated</div>
+    </footer>
+  </main>
+
+  <script>
+    // Year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Mobile menu toggle
+    const btn = document.getElementById("menuBtn");
+    const menu = document.getElementById("mobileMenu");
+    const links = document.querySelectorAll(".m-link");
+
+    function closeMenu(){
+      menu.style.display = "none";
+      btn.setAttribute("aria-expanded", "false");
+    }
+    btn.addEventListener("click", () => {
+      const open = btn.getAttribute("aria-expanded") === "true";
+      if(open) closeMenu();
+      else { menu.style.display = "block"; btn.setAttribute("aria-expanded","true"); }
+    });
+    links.forEach(a => a.addEventListener("click", closeMenu));
+
+    // Copy email
+    const email = "youremail@example.com"; // <-- change this
+    const copyBtn = document.getElementById("copyEmailBtn");
+    copyBtn.addEventListener("click", async () => {
+      try{
+        await navigator.clipboard.writeText(email);
+        copyBtn.textContent = "Copied!";
+        setTimeout(() => copyBtn.textContent = "Copy Email", 1200);
+      }catch(e){
+        alert("Copy failed. Email: " + email);
+      }
+    });
+
+    // Scroll reveal
+    const revealEls = document.querySelectorAll(".reveal");
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if(e.isIntersecting){
+          e.target.classList.add("show");
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    revealEls.forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
